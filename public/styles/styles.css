@@ -1,3 +1,29 @@
 .list-group-item {
   line-height: 2.5;
 }
+
+body{
+  font-family: 'Montserrat', sans-serif;
+  background-color: #f3ebf3;
+}
+
+form{
+  margin-top: 40px;
+}
+
+.sidebar h1 a{
+  color: #eb6ffe;
+  text-decoration: none;
+  text-align: center;
+}
+
+.sidebar h1 a:hover{
+  color: #b20cff;
+  text-decoration: none;
+}
+
+.sidebar{
+  background-color: white;
+  min-height: 100vh;
+  padding: 20px;
+}
