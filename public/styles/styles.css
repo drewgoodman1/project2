@@ -15,6 +15,7 @@ form{
 
 .modal form{
   margin-top: 0px;
+  padding: 0px;
 }
 
 form small{
@@ -34,8 +35,8 @@ form i{
   padding: 0px;
 }
 
-.navbar-brand a:hover{
-  color: darken(grey, 100%) !important; 
+.navbar-brand:hover{
+  color: lightgrey !important; 
 }
 
 .sidebar h1 a:hover{
@@ -47,7 +48,7 @@ form i{
 .sidebar{
   background-color: white;
   min-height: 100vh;
-  padding: 20px;
+  padding: 0px;
   text-align: center;
 }
 
@@ -66,6 +67,13 @@ form i{
 }
 
 .nav-right ul li a{
+  color: white;
+}
+
+.nav-right h4{
+  font-size: 1.2em;
+  float: left;
+  padding-top: 15px;
   color: white;
 }
 
@@ -111,4 +119,17 @@ small a{
 
 small a:hover{
   text-decoration: none;
+}
+
+nav a{
+  width: 100% !important;
+  background-color: white;
+  display: block;
+  padding: 15px;
+  color: #083742;
+  border-bottom: 1px solid #f1f3f5;
+}
+
+nav a i{
+  margin-right: 5px;
 }
