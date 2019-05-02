@@ -45,13 +45,13 @@ form i{
 
 .nav-right ul{
   float: right;
-  padding-top: 10px;
+  padding-top: 15px;
 }
 
 .nav-right ul li{
   list-style: none;
   display: inline;
-  font-size: 1.2em;
+  font-size: 1em;
   color: white;
   padding-right: 20px;
   font-weight: 300;

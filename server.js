@@ -6,6 +6,9 @@ var passport = require('passport')
 var session = require('express-session')
 var bodyParser = require('body-parser')
 
+var Handlebars     = require('handlebars');
+var HandlebarsIntl = require('handlebars-intl');
+
 var db = require('./models')
 
 require('./config/passport.js')(passport, db.user)
@@ -38,6 +41,8 @@ app.engine(
 app.set('view engine', 'handlebars')
 
 var authRoute = require('./routes/authRoutes')(app, passport)
+
+HandlebarsIntl.registerWith(Handlebars);
 
 // Routes
 require('./routes/apiRoutes')(app)
