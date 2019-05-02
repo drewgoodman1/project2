@@ -3,22 +3,36 @@
 }
 
 body{
-  font-family: 'Montserrat', sans-serif;
-  background-color: #f3ebf3;
+  font-family: 'Lato', sans-serif;
+  background-color: #f1f3f5;
 }
 
 form{
   margin-top: 40px;
+  background-color: white;
+  padding: 20px;
 }
 
-.sidebar h1 a{
-  color: #eb6ffe;
+form small{
+  float: right;
+}
+
+form i{
+  color: #b20cff;
+  font-size: 3em !important;
+}
+
+.navbar-brand{
+  color: white;
   text-decoration: none;
   text-align: center;
+  font-size: 3em !important;
+  padding: 0px;
 }
 
 .sidebar h1 a:hover{
-  color: #b20cff;
+  /* color: darken(#b20cff, 100%); */
+  filter: brightness(85%);
   text-decoration: none;
 }
 
@@ -26,4 +40,67 @@ form{
   background-color: white;
   min-height: 100vh;
   padding: 20px;
+  text-align: center;
+}
+
+.nav-right ul{
+  float: right;
+  padding-top: 20px;
+}
+
+.nav-right ul li{
+  list-style: none;
+  display: inline;
+  font-size: 1.2em;
+  color: white;
+  padding-right: 20px;
+  font-weight: 300;
+}
+
+.nav-right ul li a{
+  color: white;
+}
+
+.nav-left{
+  background-color: #f961b4;
+  text-align: center;
+}
+
+.nav-right{
+  background-color: #8c64f9;
+}
+
+.user-icon{
+  border-radius: 50%;
+  font-size: 1.5em;
+  width: 1em;
+  height: 1em;;
+  background-color: white;
+  color:#8c64f9;
+  padding: 2px;
+  vertical-align:middle;
+  margin-right: 5px;
+}
+
+.profile p{
+  color: black;
+  padding-left: 20px;
+  font-weight: 700;
+  text-align: left;
+}
+
+small a{
+  color: grey;
+}
+
+.profile h4{
+  margin-top: 20px;
+}
+
+.coins{
+  color: #00cc00;
+}
+
+small a:hover{
+  text-decoration: none;
 }

@@ -3,20 +3,15 @@ var passport = require('passport');
 
 module.exports = function(app) {
   function isLoggedIn(req, res, next) {
- 
     if (req.isAuthenticated())
         return next();
     res.redirect('/signin');
   }
 
   app.get('/logout',function(req, res) {
-  
     req.session.destroy(function(err) {
-
         res.redirect('/signin');
-
     });
-
   });
 
   app.get("/signup", function(req, res) {
@@ -34,7 +29,12 @@ module.exports = function(app) {
   ));
 
   app.get('/dashboard', isLoggedIn, function(req, res) {
-    res.render("dashboard", { username: req.user.username, money: req.user.money });
+    res.render("dashboard", { 
+      username: req.user.username, 
+      money: req.user.money,
+      firstname: req.user.firstname,
+      lastname: req.user.lastname
+    });
   });
 
   app.post('/signup', passport.authenticate('local-signup', 
