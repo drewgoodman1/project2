@@ -62,12 +62,12 @@ form i{
 }
 
 .nav-left{
-  background-color: #f961b4;
+  background-color: #0F6378;
   text-align: center;
 }
 
 .nav-right{
-  background-color: #8c64f9;
+  background-color: #083742;
 }
 
 .user-icon{
@@ -76,7 +76,7 @@ form i{
   width: 1em;
   height: 1em;;
   background-color: white;
-  color:#8c64f9;
+  color:#083742;
   padding: 2px;
   vertical-align:middle;
   margin-right: 5px;
