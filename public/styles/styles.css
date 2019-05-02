@@ -13,6 +13,10 @@ form{
   padding: 20px;
 }
 
+.modal form{
+  margin-top: 0px;
+}
+
 form small{
   float: right;
 }
@@ -28,6 +32,10 @@ form i{
   text-align: center;
   font-size: 2.5em !important;
   padding: 0px;
+}
+
+.navbar-brand a:hover{
+  color: darken(grey, 100%) !important; 
 }
 
 .sidebar h1 a:hover{
@@ -53,7 +61,7 @@ form i{
   display: inline;
   font-size: 1em;
   color: white;
-  padding-right: 20px;
+  padding-right: 10px;
   font-weight: 300;
 }
 
@@ -98,7 +106,7 @@ small a{
 }
 
 .coins{
-  color: #00cc00;
+  color: #ffd000;
 }
 
 small a:hover{
