@@ -93,7 +93,7 @@ form i{
   height: 1em;;
   background-color: white;
   color:#083742;
-  padding: 2px;
+  padding: 1px;
   vertical-align:middle;
   margin-right: 5px;
 }
@@ -157,3 +157,34 @@ nav a i{
   font-size: .85em;
   font-weight: bold;
 }
+
+#logo img{
+  height: 3em;
+  margin-bottom: 20px !important;
+  display: block;
+  margin: 0 auto;
+}
+
+h3{
+  font-size: 1em;
+  text-transform: uppercase;
+  text-align: center;
+  color: #083742;
+}
+
+h5{
+  font-size: 1em;
+  text-align: center;
+}
+
+#chartContainer{
+  margin-top: 20px;
+}
+
+.canvasjs-chart-credit{
+  display: none;
+}
+
+/* .canvasjs-chart-canvas{
+  display: none;
+} */
