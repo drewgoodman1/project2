@@ -46,7 +46,7 @@ form i{
 }
 
 .sidebar{
-  background-color: white;
+  background-color: #083742;
   min-height: 100vh;
   padding: 0px;
   text-align: center;
@@ -123,11 +123,11 @@ small a:hover{
 
 nav a{
   width: 100% !important;
-  background-color: white;
+  background-color: #083742;
   display: block;
   padding: 15px;
-  color: #083742;
-  border-bottom: 1px solid #f1f3f5;
+  color: white;
+  /* border-bottom: 1px solid #06242c; */
 }
 
 nav a i{
@@ -139,7 +139,7 @@ nav a i{
   padding: 20px;
   box-sizing: border-box;
   overflow: hidden;
-  border-radius: 0px 5px 5px 5px;
+  border-radius: 0px 10px 10px 10px;
   height: 100%;
 }
 
