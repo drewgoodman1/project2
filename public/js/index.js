@@ -8,7 +8,7 @@ var symbols = ['aapl', 'wmt', 'snap', 'fb', 'goog']
 
 for (var i = 0; i < symbols.length; i++) {
   $('nav').append(
-    "<a href='#' id='" + symbols[i] + "'><i class='fas fa-chart-line'></i>" + symbols[i].toUpperCase() + '</a>'
+    "<a href='#' id='" + symbols[i] + "'>" + symbols[i].toUpperCase() + '</a>'
   )
 }
 

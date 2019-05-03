@@ -3,7 +3,7 @@
 }
 
 body{
-  font-family: 'Lato', sans-serif;
+  font-family: 'Open Sans', sans-serif;
   background-color: #f1f3f5;
 }
 
@@ -152,8 +152,9 @@ nav a i{
   padding: 20px;
   box-sizing: border-box;
   overflow: hidden;
-  border-radius: 10px 10px 10px 10px;
+  border-radius: 7px;
   height: 100%;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,.1);
 }
 
 .row-spacing{
