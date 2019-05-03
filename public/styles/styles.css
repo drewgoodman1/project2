@@ -28,7 +28,7 @@ form i{
 }
 
 .navbar-brand{
-  color: white;
+  color: #083742;
   text-decoration: none;
   text-align: center;
   font-size: 2.5em !important;
@@ -36,7 +36,7 @@ form i{
 }
 
 .navbar-brand:hover{
-  color: lightgrey !important; 
+  /* color: lightgrey !important;  */
 }
 
 .sidebar h1 a:hover{
@@ -46,7 +46,7 @@ form i{
 }
 
 .sidebar{
-  background-color: white;
+  background-color: #0F6378;
   min-height: 100vh;
   padding: 0px;
   text-align: center;
@@ -78,7 +78,7 @@ form i{
 }
 
 .nav-left{
-  background-color: #0F6378;
+  background-color: white;
   text-align: center;
 }
 
@@ -123,15 +123,24 @@ small a:hover{
 
 nav a{
   width: 100% !important;
-  background-color: white;
+  background-color: #0F6378;
   display: block;
   padding: 15px;
-  color: #083742;
-  border-bottom: 1px solid #f1f3f5;
+  color: white;
+  border-bottom: 1px solid rgb(13, 87, 105);
+}
+
+nav a:first-child{
+  border-top: 1px solid rgb(13, 87, 105);
 }
 
 nav a:last-child{
   margin-bottom: 20px;
+}
+
+nav a:hover{
+  color: lightgrey !important; 
+  text-decoration: none;
 }
 
 nav a i{
@@ -143,13 +152,13 @@ nav a i{
   padding: 20px;
   box-sizing: border-box;
   overflow: hidden;
-  border-radius: 0px 10px 10px 10px;
+  border-radius: 10px 10px 10px 10px;
   height: 100%;
 }
 
 .row-spacing{
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 
 .box p{
@@ -174,6 +183,8 @@ h3{
   text-transform: uppercase;
   text-align: center;
   color: #083742;
+  letter-spacing: 1px;
+  font-weight: 400;
 }
 
 h5{
@@ -192,3 +203,7 @@ h5{
 /* .canvasjs-chart-canvas{
   display: none;
 } */
+
+.dark-blue-grey{
+  background-color: #4F6D7A;
+}

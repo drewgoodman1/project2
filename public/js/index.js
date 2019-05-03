@@ -207,7 +207,7 @@ function makeChart (dataArray, symbol) {
   var chart = new CanvasJS.Chart('chartContainer', {
     animationEnabled: true,
     title: {
-      text: symbol.toUpperCase(),
+      text: symbol.toUpperCase() + ' - 1 Month',
       fontFamily: "Lato",
       fontSize: 16
     },
@@ -232,7 +232,7 @@ function makeChart (dataArray, symbol) {
     },
     data: [{
       type: 'area',
-      color: '#0F6378',
+      color: '#C0D6DF',
       xValueFormatString: 'DD MMM',
       yValueFormatString: '$##0.00',
       dataPoints: dataArray
