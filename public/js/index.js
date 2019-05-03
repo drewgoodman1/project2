@@ -208,7 +208,7 @@ function makeChart (dataArray, symbol) {
     animationEnabled: true,
     title: {
       text: symbol.toUpperCase() + ' - 1 Month',
-      fontFamily: "Lato",
+      fontFamily: "Source Sans Pro",
       fontSize: 16
     },
     axisX: {
