@@ -6,8 +6,17 @@ var passport = require('passport')
 var session = require('express-session')
 var bodyParser = require('body-parser')
 
-var Handlebars     = require('handlebars');
-var HandlebarsIntl = require('handlebars-intl');
+// var IEX = require('investors-exchange.api')
+
+// const AAPL = IEX.stock('aapl')
+// console.log('---test---')
+// const quote = {}
+// quote.default = AAPL.quote()
+// quote.percent = AAPL.quote({displayPercent: true}).then(console.log(quote))
+
+
+var Handlebars = require('handlebars')
+var HandlebarsIntl = require('handlebars-intl')
 
 var db = require('./models')
 
@@ -42,7 +51,7 @@ app.set('view engine', 'handlebars')
 
 var authRoute = require('./routes/authRoutes')(app, passport)
 
-HandlebarsIntl.registerWith(Handlebars);
+HandlebarsIntl.registerWith(Handlebars)
 
 // Routes
 require('./routes/apiRoutes')(app)

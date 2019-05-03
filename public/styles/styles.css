@@ -133,3 +133,27 @@ nav a{
 nav a i{
   margin-right: 5px;
 }
+
+.box{
+  background-color: white;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow: hidden;
+  border-radius: 0px 5px 5px 5px;
+  height: 100%;
+}
+
+.row-spacing{
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.box p{
+  font-size: 12px;
+}
+
+.box a{
+  color: #083742;
+  font-size: .85em;
+  font-weight: bold;
+}
