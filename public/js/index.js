@@ -4,7 +4,7 @@
 // var $submitBtn = $('#submit')
 // var $exampleList = $('#example-list')
 
-var symbols = ['aapl', 'wmt', 'snap', 'fb', 'goog']
+var symbols = ['aapl', 'wmt', 'snap', 'fb', 'goog', 'tgt', 'SNE']
 
 for (var i = 0; i < symbols.length; i++) {
   $('nav').append(
