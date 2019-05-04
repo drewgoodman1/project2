@@ -19,11 +19,45 @@
     <div class="col-12 col-md-2 sidebar">
       <nav>
         {{!-- <a href="/dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a> --}}
-        <a href="#"><i class="fas fa-chart-line"></i> AAPL</a>
+        {{!-- <a href="#" id="aapl"><i class="fas fa-chart-line"></i> AAPL</a>
+        <a href="#" id="wmt"><i class="fas fa-chart-line"></i> WMT</a> --}}
       </nav>
+      <a class="btn btn-outline-light" id="addStock" href="" data-toggle="modal" data-target="#addStockModal">Buy Stock</a>
     </div>
     <div class="col-12 col-md-10">
-      <p>Stock info goes here.</p>
+      <div class="row row-spacing">
+        <div class="col-12 col-md-4">
+          <div class="box">
+            <span id="logo"></span>
+            {{!-- <h3>Current Price</h3> --}}
+            <h5 id="current-price"></h5>
+          </div>
+        </div>
+        <div class="col-12 col-md-4">
+          <div class="box">
+            <h3>Purchased Price</h3>
+            <h5 id="">db</h5>
+            <h3>Purchased Quantity</h3>
+            <h5 id="">db</h5>
+          </div>
+        </div>
+        <div class="col-12 col-md-4">
+          <div class="box">
+            <h3>Stats</h3>
+            <h5 id="">db</h5>
+          </div>
+        </div>
+      </div>
+      <div class="row row-spacing">
+        <div class="col-12 col-md-6">
+          <div class="box"><div id="chartContainer" style="height: 300px; width: 100%;"></div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="box" id="news"></div>
+        </div>
+      </div>
+      <button type="button" id="sell" class="btn btn-outline-danger">Sell Stock</button>
     </div>
   </div>
 </div>
@@ -56,3 +90,6 @@
     </div>
   </div>
 </div>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
