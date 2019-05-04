@@ -1,3 +1,135 @@
 .list-group-item {
   line-height: 2.5;
 }
+
+body{
+  font-family: 'Lato', sans-serif;
+  background-color: #f1f3f5;
+}
+
+form{
+  margin-top: 40px;
+  background-color: white;
+  padding: 20px;
+}
+
+.modal form{
+  margin-top: 0px;
+  padding: 0px;
+}
+
+form small{
+  float: right;
+}
+
+form i{
+  color: #b20cff;
+  font-size: 3em !important;
+}
+
+.navbar-brand{
+  color: white;
+  text-decoration: none;
+  text-align: center;
+  font-size: 2.5em !important;
+  padding: 0px;
+}
+
+.navbar-brand:hover{
+  color: lightgrey !important; 
+}
+
+.sidebar h1 a:hover{
+  /* color: darken(#b20cff, 100%); */
+  filter: brightness(85%);
+  text-decoration: none;
+}
+
+.sidebar{
+  background-color: white;
+  min-height: 100vh;
+  padding: 0px;
+  text-align: center;
+}
+
+.nav-right ul{
+  float: right;
+  padding-top: 15px;
+}
+
+.nav-right ul li{
+  list-style: none;
+  display: inline;
+  font-size: 1em;
+  color: white;
+  padding-right: 10px;
+  font-weight: 300;
+}
+
+.nav-right ul li a{
+  color: white;
+}
+
+.nav-right h4{
+  font-size: 1.2em;
+  float: left;
+  padding-top: 15px;
+  color: white;
+}
+
+.nav-left{
+  background-color: #0F6378;
+  text-align: center;
+}
+
+.nav-right{
+  background-color: #083742;
+}
+
+.user-icon{
+  border-radius: 50%;
+  font-size: 1.5em;
+  width: 1em;
+  height: 1em;;
+  background-color: white;
+  color:#083742;
+  padding: 2px;
+  vertical-align:middle;
+  margin-right: 5px;
+}
+
+.profile p{
+  color: black;
+  padding-left: 20px;
+  font-weight: 700;
+  text-align: left;
+}
+
+small a{
+  color: grey;
+}
+
+.profile h4{
+  margin-top: 20px;
+}
+
+.coins{
+  color: #ffd000;
+}
+
+small a:hover{
+  text-decoration: none;
+}
+
+nav a{
+  width: 100% !important;
+  background-color: white;
+  display: block;
+  padding: 15px;
+  color: #083742;
+  border-bottom: 1px solid #f1f3f5;
+}
+
+nav a i{
+  margin-right: 5px;
+}
