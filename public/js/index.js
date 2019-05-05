@@ -4,6 +4,74 @@
 // var $submitBtn = $('#submit')
 // var $exampleList = $('#example-list')
 
+var stocks = []
+
+$.get('/api/stocks', function (data) {
+  for (var i = 0; i < data.length; i++) {
+    stocks.push(data[i].name + ' - ' + data[i].symbol)
+  }
+
+  console.log(stocks)
+})
+
+var substringMatcher = function (strs) {
+  return function findMatches (q, cb) {
+    var matches, substringRegex
+
+    matches = []
+
+    substrRegex = new RegExp(q, 'i')
+
+    $.each(strs, function (i, str) {
+      if (substrRegex.test(str)) {
+        matches.push(str)
+      }
+    })
+
+    cb(matches)
+  };
+}
+
+$('#symbol').typeahead({
+  hint: true,
+  highlight: true,
+  minLength: 1
+},
+{
+  name: 'stocks',
+  source: substringMatcher(stocks)
+})
+
+$('#buy').on('click', function () {
+  var symbol = $('#symbol').val().split(' - ')
+  var quantity = $('#quantity').val().trim()
+  var userId = $('#user').data('id')
+
+
+  console.log(newStock)
+
+  API.getPrice(symbol[1]).then(
+    function (data) {
+      var newStock = {
+        symbol: symbol[1],
+        quantity: quantity,
+        userId: userId,
+        purchasePrice: data
+      }
+      console.log(newStock)
+
+      $.ajax('/api/stockOrder', {
+        symbol: 'POST',
+        data: newStock
+      }).then(
+        function () {
+         location.reload();
+        }
+      )
+    }
+  )
+})
+
 var symbols = ['aapl', 'wmt', 'snap', 'fb', 'goog', 'tgt', 'SNE']
 
 for (var i = 0; i < symbols.length; i++) {
@@ -208,7 +276,7 @@ function makeChart (dataArray, symbol) {
     animationEnabled: true,
     title: {
       text: symbol.toUpperCase() + ' - 1 Month',
-      fontFamily: "Source Sans Pro",
+      fontFamily: 'Source Sans Pro',
       fontSize: 16
     },
     axisX: {

@@ -8,7 +8,7 @@
     <div class="col-md-10 nav-right">
       <h4><i class="fas fa-coins coins"></i> {{formatNumber money style="currency" currency="USD"}}</h4>
       <ul>
-        <li><i class="fas fa-user-astronaut user-icon"></i> {{firstname}} {{lastname}}</li>
+        <li id="user" data-id="{{id}}"><i class="fas fa-user-astronaut user-icon"></i> {{firstname}} {{lastname}}</li>
         <li><a id="addStock" href="" data-toggle="modal" data-target="#addStockModal"><i class="far fa-plus-square"></i></a></li>
         <li><a href="/logout"><i class="fas fa-sign-out-alt"></i></a></li>
       </ul>
@@ -85,11 +85,77 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Buy</button>
+        <button id="buy" type="button" class="btn btn-primary">Buy</button>
       </div>
     </div>
   </div>
 </div>
 
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="/js/index.js"></script>
+
+{{!-- <script>
+$(document).ready(function(){
+  var stocks = []
+
+  $.get("/api/stocks", function(data) {
+    for(var i = 0; i < data.length; i++){
+      stocks.push(data[i].name + ' - ' + data[i].symbol)
+    }
+
+    console.log(stocks)
+  })
+  
+  var substringMatcher = function(strs) {
+    return function findMatches(q, cb) {
+      var matches, substringRegex;
+
+      matches = [];
+
+      substrRegex = new RegExp(q, 'i');
+
+      $.each(strs, function(i, str) {
+        if (substrRegex.test(str)) {
+          matches.push(str);
+        }
+      });
+
+      cb(matches);
+    };
+  };
+
+  $('#symbol').typeahead({
+    hint: true,
+    highlight: true,
+    minLength: 1
+  },
+  {
+    name: 'stocks',
+    source: substringMatcher(stocks)
+  });
+
+  $('#buy').on('click', function(){
+    var symbol = $('#symbol').val().split(' - ')
+    var quantity = $('#quantity').val().trim()
+    var userId = $('#user').data("id");
+
+
+    var newStock = {
+      symbol: symbol[1],
+      quantity: quantity,
+      userId: userId
+    };
+
+    console.log(newStock)
+
+    $.ajax("/api/stockOrder", {
+      symbol: "POST",
+      data: newStock
+    }).then(
+      function() {
+
+        {{!-- location.reload(); --}}
+      }
+    );
+  })
+});
+</script> --}}
+

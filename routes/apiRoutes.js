@@ -21,4 +21,10 @@ module.exports = function (app) {
       res.json(dbExample)
     })
   })
+
+  app.get('/api/stocks', function (req, res) {
+    db.stock.findAll({ attributes: ['symbol', 'name'] }).then(function (data) {
+      res.json(data)
+    })
+  })
 };
