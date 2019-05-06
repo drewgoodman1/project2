@@ -65,4 +65,17 @@ module.exports = function (app) {
       res.json(data)
     })
   })
+
+  app.delete("/api/orders/:userId/:stockId", function(req, res) {
+    console.log(req.params.stockId)
+    db.stockOrder.destroy({
+      where: {
+        userId: req.params.userId,
+        stockID: req.params.stockId
+      }
+    }).then(function(data) {
+      res.json(data);
+    });
+
+  });
 }

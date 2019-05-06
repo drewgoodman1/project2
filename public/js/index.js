@@ -72,6 +72,39 @@ $('#buy').on('click', function () {
   )
 })
 
+
+$('#sell').on('click', function () {
+  var userId = $('#user').data('id')
+  var symbol = $('#current-price').attr('name');
+  var symbolId
+
+  console.log(symbol)
+
+  $.ajax('/api/stockId/' + symbol, {
+    type: 'GET'
+  }).then(
+    function (data) {
+      symbolId = data[0].id
+      console.log(symbolId)
+      $.ajax('/api/orders/' + userId + '/' + symbolId, {
+        type: 'DELETE'
+      }).then(
+        function () {
+          location.reload()
+        }
+      )
+    }
+  )
+
+  // $.ajax('/api/orders/' + userId + '/' + symbolId, {
+  //   type: 'DELETE'
+  // }).then(
+  //   function () {
+  //     location.reload()
+  //   }
+  // )
+})
+
 var API = {
   getPrice: function (symbol) {
     return $.ajax({
@@ -81,7 +114,7 @@ var API = {
   },
   getNews: function (symbol) {
     return $.ajax({
-      url: 'https://api.iextrading.com/1.0/stock/' + symbol + '/news/last/5',
+      url: 'https://api.iextrading.com/1.0/stock/' + symbol + '/news/last/4',
       type: 'GET'
     })
   },
@@ -156,7 +189,7 @@ function getUsersStocks () {
 function getPrice (symbol) {
   API.getPrice(symbol).then(
     function (data) {
-      $('#current-price').text('$' + data)
+      $('#current-price').text('$' + data).attr('name', symbol);
     }
   )
 }
