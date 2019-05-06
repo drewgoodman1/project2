@@ -73,9 +73,9 @@
       </div>
       <div class="modal-body">
         <form>
-          <div class="form-group">
-            <label for="symbol" class="col-form-label">Symbol</label>
-            <input type="text" class="form-control" id="symbol">
+          <div class="form-group" action="#" method="POST">
+            <label for="autosymbol" class="col-form-label">Symbol</label>
+            <input type="text" action="https://api.iextrading.com/1.0/ref-data/symbols" method="get" class="form-control" id="autosymbol" placeholder="enter symbol" autocomplete="on">
           </div>
           <div class="form-group">
             <label for="quantity" class="col-form-label">Quantity</label>
@@ -93,3 +93,4 @@
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="/js/index.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.devbridge-autocomplete/1.2.27/jquery.autocomplete.min.js"></script>

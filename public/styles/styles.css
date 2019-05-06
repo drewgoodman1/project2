@@ -26,6 +26,11 @@ form i{
   color: #b20cff;
   font-size: 3em !important;
 }
+.ui-autocomplete {
+  position: absolute;
+  z-index: 1510 !important;
+  float: left;
+}
 
 .navbar-brand{
   color: #083742;
