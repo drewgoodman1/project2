@@ -44,9 +44,12 @@ module.exports = function (app) {
     })
   })
 
-  app.get('/api/usersStockSymbols/:stockId', function (req, res) {
+  app.get('/api/usersStockSymbols/:usersStocksIds', function (req, res) {  
+    console.log(req.params.usersStocksIds) 
+    var array = req.params.usersStocksIds.split(',')
+    console.log(array)
     db.stock.findAll({
-      where: { id: req.params.stockId}
+      where: { id: array }
     }).then(function (data) {
       res.json(data)
     })

@@ -1,11 +1,5 @@
-// Get references to page elements
-// var $exampleText = $('#example-text')
-// var $exampleDescription = $('#example-description')
-// var $submitBtn = $('#submit')
-// var $exampleList = $('#example-list')
 
 var stocks = []
-var symbols = ['aapl', 'wmt']
 
 $.get('/api/stocks', function (data) {
   for (var i = 0; i < data.length; i++) {
@@ -43,66 +37,6 @@ $('#symbol').typeahead({
 
 var userId = $('#user').data('id')
 
-// function getUsersStock () {
-//   var usersStocksIds = []
-//   var usersStocksSymbols = []
-//   symbols = []
-//   $.get('/api/usersStockId/' + userId, function (data) {
-//     for (var i = 0; i < data.length; i++) {
-//       usersStocksIds.push(data[i].stockID)
-//     }
-//     for (var i = 0; i < usersStocksIds.length; i++) {
-//       $.get('/api/usersStockSymbols/' + usersStocksIds[i], function (data) {
-//         for (var i = 0; i < data.length; i++) {
-//           symbols.push(data[i].symbol)
-//         }
-//       })
-//     }
-//   })
-
-//   // getPrice(symbols[0])
-//   // getNews(symbols[0])
-//   // getLogo(symbols[0])
-//   // getChart(symbols[0])
-// }
-
-
-
-// getUsersStock().then(
-//   makeNav(symbols)
-// )
-
-// getUsersStock()
-
-// $.when(symbols).done(function() {
-//   console.log(symbols)
-
-//   // makeNav(symbols)
-
-//   for (var i = 0; i < symbols.length; i++) {
-//     console.log(symbols[i])
-//     $('nav').append(
-//       "<a href='#' id='" + symbols[i] + "'>" + symbols[i].toUpperCase() + '</a>'
-//     )
-//   }
-// });
-
-// for (var i = 0; i < symbols.length; i++) {
-//   $('nav').append(
-//     "<a href='#' id='" + symbols[i] + "'>" + symbols[i].toUpperCase() + '</a>'
-//   )
-// }
-
-// function makeNav (symbols) {
-//   console.log('hi')
-//   for (var i = 0; i < symbols.length; i++) {
-//     console.log(symbols[i])
-//     $('nav').append(
-//       "<a href='#' id='" + symbols[i] + "'>" + symbols[i].toUpperCase() + '</a>'
-//     )
-//   }
-// }
-
 $('#buy').on('click', function () {
   var symbol = $('#symbol').val().split(' - ')
   var quantity = $('#quantity').val().trim()
@@ -138,37 +72,7 @@ $('#buy').on('click', function () {
   )
 })
 
-$('nav a').on('click', function () {
-  getPrice(this.id)
-  getNews(this.id)
-  getLogo(this.id)
-  getChart(this.id)
-})
-
-// The API object contains methods for each kind of request we'll make
 var API = {
-  // saveExample: function (example) {
-  //   return $.ajax({
-  //     headers: {
-  //       'Content-Type': 'application/json'
-  //     },
-  //     type: 'POST',
-  //     url: 'api/examples',
-  //     data: JSON.stringify(example)
-  //   })
-  // },
-  // getExamples: function () {
-  //   return $.ajax({
-  //     url: 'api/examples',
-  //     type: 'GET'
-  //   })
-  // },
-  // deleteExample: function (id) {
-  //   return $.ajax({
-  //     url: 'api/examples/' + id,
-  //     type: 'DELETE'
-  //   })
-  // },
   getPrice: function (symbol) {
     return $.ajax({
       url: 'https://api.iextrading.com/1.0/stock/' + symbol + '/price',
@@ -192,11 +96,61 @@ var API = {
       url: 'https://api.iextrading.com/1.0/stock/' + symbol + '/chart',
       type: 'GET'
     })
+  },
+  getUsersStockId: function (userId) {
+    return $.ajax({
+      url: '/api/usersStockId/' + userId,
+      type: 'GET'
+    })
+  },
+  getUsersStockSymbols: function (usersStocksIds) {
+    return $.ajax({
+      url: '/api/usersStockSymbols/' + usersStocksIds,
+      type: 'GET'
+    })
   }
 }
 
 function truncate (str, no_words) {
   return str.split(' ').splice(0, no_words).join(' ')
+}
+
+getUsersStocks()
+function getUsersStocks () {
+  var usersStocksIds = []
+  var sym = []
+
+  API.getUsersStockId(userId).then(
+    function (data) {
+      for (var i = 0; i < data.length; i++) {
+        usersStocksIds.push(data[i].stockID)
+      }
+      console.log(usersStocksIds)
+
+      API.getUsersStockSymbols(usersStocksIds).then(
+        function (data) {
+          console.log(data)
+          for (var i = 0; i < data.length; i++) {
+            $('nav').append(
+              "<a href='#' id='" + data[i].symbol + "'>" + data[i].symbol.toUpperCase() + '</a>'
+            )
+          }
+
+          getPrice(data[0].symbol)
+          getNews(data[0].symbol)
+          getLogo(data[0].symbol)
+          getChart(data[0].symbol)
+
+          $('nav a').on('click', function () {
+            getPrice(this.id)
+            getNews(this.id)
+            getLogo(this.id)
+            getChart(this.id)
+          })
+        }
+      )
+    }
+  )
 }
 
 function getPrice (symbol) {
@@ -245,83 +199,6 @@ function getLogo (symbol) {
   )
 }
 
-// refreshExamples gets new examples from the db and repopulates the list
-// var refreshExamples = function () {
-//   API.getExamples().then(function (data) {
-//     var $examples = data.map(function (example) {
-//       var $a = $('<a>')
-//         .text(example.text)
-//         .attr('href', '/example/' + example.id)
-
-//       var $li = $('<li>')
-//         .attr({
-//           class: 'list-group-item',
-//           'data-id': example.id
-//         })
-//         .append($a)
-
-//       var $button = $('<button>')
-//         .addClass('btn btn-danger float-right delete')
-//         .text('ｘ')
-
-//       $li.append($button)
-
-//       return $li
-//     })
-
-//     $exampleList.empty()
-//     $exampleList.append($examples)
-//   })
-// }
-
-// handleFormSubmit is called whenever we submit a new example
-// Save the new example to the db and refresh the list
-// var handleFormSubmit = function (event) {
-//   event.preventDefault()
-
-//   var example = {
-//     text: $exampleText.val().trim(),
-//     description: $exampleDescription.val().trim()
-//   }
-
-//   if (!(example.text && example.description)) {
-//     alert('You must enter an example text and description!')
-//     return
-//   }
-
-//   API.saveExample(example).then(function () {
-//     refreshExamples()
-//   })
-
-//   $exampleText.val('')
-//   $exampleDescription.val('')
-// }
-
-// handleDeleteBtnClick is called when an example's delete button is clicked
-// Remove the example from the db and refresh the list
-// var handleDeleteBtnClick = function () {
-//   var idToDelete = $(this)
-//     .parent()
-//     .attr('data-id')
-
-//   API.deleteExample(idToDelete).then(function () {
-//     refreshExamples()
-//   })
-// }
-
-// Add event listeners to the submit and delete buttons
-// $submitBtn.on('click', handleFormSubmit)
-// $exampleList.on('click', '.delete', handleDeleteBtnClick)
-
-// var data = getChart(symbols[0])
-// console.log(data)
-
-// var dataArray = []
-
-// for(var i = 0; i < data.length; i++){
-//    dataArray.push({ x: new Date(2016, 07, 01), y: 76.727997 })
-// }
-
 function makeChart (dataArray, symbol) {
   var chart = new CanvasJS.Chart('chartContainer', {
     animationEnabled: true,
@@ -358,54 +235,4 @@ function makeChart (dataArray, symbol) {
     }]
   })
   chart.render()
-}
-
-
-
-// getPrice(symbols[0])
-// getNews(symbols[0])
-// getLogo(symbols[0])
-// getChart(symbols[0])
-
-getUsersStock () 
-
-function getUsersStock () {
-  var usersStocksIds = []
-  var usersStocksSymbols = []
-  var sym = []
-  $.get('/api/usersStockId/' + userId, function (data) {
-    for (var i = 0; i < data.length; i++) {
-      usersStocksIds.push(data[i].stockID)
-    }
-    for (var i = 0; i < usersStocksIds.length; i++) {
-      $.get('/api/usersStockSymbols/' + usersStocksIds[i], function (data) {
-        for (var i = 0; i < data.length; i++) {
-          sym.push(data[i].symbol)
-        }
-      })
-    }
-
-    console.log(sym)
-
-    // for (var i = 0; i < sym.length; i++) {
-    //   console.log("hi")
-    //   $('nav').append(
-    //     "<a href='#' id='" + sym[i] + "'>" + sym[i].toUpperCase() + '</a>'
-    //   )
-    // }
-
-    $.when( sym ).done(function() {
-      for (var i = 0; i < sym.length; i++) {
-        console.log("hi")
-        $('nav').append(
-          "<a href='#' id='" + sym[i] + "'>" + sym[i].toUpperCase() + '</a>'
-        )
-      }
-    });
-  })
-
-  // getPrice(symbols[0])
-  // getNews(symbols[0])
-  // getLogo(symbols[0])
-  // getChart(symbols[0])
 }
