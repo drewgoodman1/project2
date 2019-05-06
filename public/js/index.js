@@ -5,13 +5,12 @@
 // var $exampleList = $('#example-list')
 
 var stocks = []
+var symbols = ['aapl', 'wmt']
 
 $.get('/api/stocks', function (data) {
   for (var i = 0; i < data.length; i++) {
     stocks.push(data[i].name + ' - ' + data[i].symbol)
   }
-
-  console.log(stocks)
 })
 
 var substringMatcher = function (strs) {
@@ -29,7 +28,7 @@ var substringMatcher = function (strs) {
     })
 
     cb(matches)
-  };
+  }
 }
 
 $('#symbol').typeahead({
@@ -42,43 +41,102 @@ $('#symbol').typeahead({
   source: substringMatcher(stocks)
 })
 
+var userId = $('#user').data('id')
+
+// function getUsersStock () {
+//   var usersStocksIds = []
+//   var usersStocksSymbols = []
+//   symbols = []
+//   $.get('/api/usersStockId/' + userId, function (data) {
+//     for (var i = 0; i < data.length; i++) {
+//       usersStocksIds.push(data[i].stockID)
+//     }
+//     for (var i = 0; i < usersStocksIds.length; i++) {
+//       $.get('/api/usersStockSymbols/' + usersStocksIds[i], function (data) {
+//         for (var i = 0; i < data.length; i++) {
+//           symbols.push(data[i].symbol)
+//         }
+//       })
+//     }
+//   })
+
+//   // getPrice(symbols[0])
+//   // getNews(symbols[0])
+//   // getLogo(symbols[0])
+//   // getChart(symbols[0])
+// }
+
+
+
+// getUsersStock().then(
+//   makeNav(symbols)
+// )
+
+// getUsersStock()
+
+// $.when(symbols).done(function() {
+//   console.log(symbols)
+
+//   // makeNav(symbols)
+
+//   for (var i = 0; i < symbols.length; i++) {
+//     console.log(symbols[i])
+//     $('nav').append(
+//       "<a href='#' id='" + symbols[i] + "'>" + symbols[i].toUpperCase() + '</a>'
+//     )
+//   }
+// });
+
+// for (var i = 0; i < symbols.length; i++) {
+//   $('nav').append(
+//     "<a href='#' id='" + symbols[i] + "'>" + symbols[i].toUpperCase() + '</a>'
+//   )
+// }
+
+// function makeNav (symbols) {
+//   console.log('hi')
+//   for (var i = 0; i < symbols.length; i++) {
+//     console.log(symbols[i])
+//     $('nav').append(
+//       "<a href='#' id='" + symbols[i] + "'>" + symbols[i].toUpperCase() + '</a>'
+//     )
+//   }
+// }
+
 $('#buy').on('click', function () {
   var symbol = $('#symbol').val().split(' - ')
   var quantity = $('#quantity').val().trim()
   var userId = $('#user').data('id')
 
+  var symbolId
 
-  console.log(newStock)
+  $.get('/api/stockId/' + symbol[1], function (data) {
+    console.log(data)
+    symbolId = data[0].id
+  })
 
   API.getPrice(symbol[1]).then(
     function (data) {
       var newStock = {
-        symbol: symbol[1],
-        quantity: quantity,
-        userId: userId,
+        symbol: parseInt(symbolId),
+        quantity: parseInt(quantity),
+        userId: parseInt(userId),
         purchasePrice: data
       }
+
       console.log(newStock)
 
-      $.ajax('/api/stockOrder', {
-        symbol: 'POST',
+      $.ajax('/api/order', {
+        type: 'POST',
         data: newStock
       }).then(
         function () {
-         location.reload();
+          location.reload()
         }
       )
     }
   )
 })
-
-var symbols = ['aapl', 'wmt', 'snap', 'fb', 'goog', 'tgt', 'SNE']
-
-for (var i = 0; i < symbols.length; i++) {
-  $('nav').append(
-    "<a href='#' id='" + symbols[i] + "'>" + symbols[i].toUpperCase() + '</a>'
-  )
-}
 
 $('nav a').on('click', function () {
   getPrice(this.id)
@@ -152,7 +210,6 @@ function getPrice (symbol) {
 function getChart (symbol) {
   API.getChart(symbol).then(
     function (data) {
-      console.log(data)
       var dataArray = []
 
       for (var i = 0; i < data.length; i++) {
@@ -160,7 +217,6 @@ function getChart (symbol) {
       }
 
       makeChart(dataArray, symbol)
-      console.log(dataArray)
     }
   )
 }
@@ -257,11 +313,6 @@ function getLogo (symbol) {
 // $submitBtn.on('click', handleFormSubmit)
 // $exampleList.on('click', '.delete', handleDeleteBtnClick)
 
-getPrice(symbols[0])
-getNews(symbols[0])
-getLogo(symbols[0])
-getChart(symbols[0])
-
 // var data = getChart(symbols[0])
 // console.log(data)
 
@@ -307,4 +358,54 @@ function makeChart (dataArray, symbol) {
     }]
   })
   chart.render()
+}
+
+
+
+// getPrice(symbols[0])
+// getNews(symbols[0])
+// getLogo(symbols[0])
+// getChart(symbols[0])
+
+getUsersStock () 
+
+function getUsersStock () {
+  var usersStocksIds = []
+  var usersStocksSymbols = []
+  var sym = []
+  $.get('/api/usersStockId/' + userId, function (data) {
+    for (var i = 0; i < data.length; i++) {
+      usersStocksIds.push(data[i].stockID)
+    }
+    for (var i = 0; i < usersStocksIds.length; i++) {
+      $.get('/api/usersStockSymbols/' + usersStocksIds[i], function (data) {
+        for (var i = 0; i < data.length; i++) {
+          sym.push(data[i].symbol)
+        }
+      })
+    }
+
+    console.log(sym)
+
+    // for (var i = 0; i < sym.length; i++) {
+    //   console.log("hi")
+    //   $('nav').append(
+    //     "<a href='#' id='" + sym[i] + "'>" + sym[i].toUpperCase() + '</a>'
+    //   )
+    // }
+
+    $.when( sym ).done(function() {
+      for (var i = 0; i < sym.length; i++) {
+        console.log("hi")
+        $('nav').append(
+          "<a href='#' id='" + sym[i] + "'>" + sym[i].toUpperCase() + '</a>'
+        )
+      }
+    });
+  })
+
+  // getPrice(symbols[0])
+  // getNews(symbols[0])
+  // getLogo(symbols[0])
+  // getChart(symbols[0])
 }

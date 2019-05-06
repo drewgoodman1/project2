@@ -27,4 +27,39 @@ module.exports = function (app) {
       res.json(data)
     })
   })
-};
+
+  app.get('/api/stockId/:symbol', function (req, res) {
+    db.stock.findAll({
+      where: { symbol: req.params.symbol }
+    }).then(function (data) {
+      res.json(data)
+    })
+  })
+
+  app.get('/api/usersStockId/:userId', function (req, res) {
+    db.stockOrder.findAll({
+      where: { userId: req.params.userId }
+    }).then(function (data) {
+      res.json(data)
+    })
+  })
+
+  app.get('/api/usersStockSymbols/:stockId', function (req, res) {
+    db.stock.findAll({
+      where: { id: req.params.stockId}
+    }).then(function (data) {
+      res.json(data)
+    })
+  })
+
+  app.post('/api/order', function (req, res) {
+    db.stockOrder.create({
+      userId: req.body.userId,
+      purchasePrice: req.body.purchasePrice,
+      quantity: req.body.quantity,
+      stockID: req.body.symbol
+    }).then(function (data) {
+      res.json(data)
+    })
+  })
+}
