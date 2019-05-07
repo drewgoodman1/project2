@@ -34,7 +34,8 @@ module.exports = function (app) {
       username: req.user.username,
       money: req.user.money,
       firstname: req.user.firstname,
-      lastname: req.user.lastname
+      lastname: req.user.lastname,
+      id: req.user.id
     })
   })
 

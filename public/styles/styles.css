@@ -135,9 +135,9 @@ nav a:first-child{
   border-top: 1px solid rgb(13, 87, 105);
 }
 
-nav a:last-child{
+/* nav a:last-child{
   margin-bottom: 20px;
-}
+} */
 
 nav a:hover{
   color: lightgrey !important; 
@@ -171,6 +171,10 @@ nav a i{
   color: #083742;
   font-size: 1em;
   font-weight: bold;
+}
+
+#addStock{
+  margin-top: 20px !important;
 }
 
 #logo img{
@@ -222,4 +226,50 @@ h5{
 
 #sell{
   float: right !important;
+}
+
+.tt-open{
+  background-color: white;
+}
+
+.tt-input{
+  display: block;
+}
+
+label{
+  display: block;
+}
+
+.tt-input, /* UPDATE: newer versions use tt-input instead of tt-query */
+.tt-hint {
+    width: 100%;
+    display: block;
+}
+
+.tt-input-group {
+  width: 100%;
+}
+
+.tt-menu{
+  width: 100%;
+}
+
+.twitter-typeahead{
+  width: 100%;
+}
+
+.tt-dataset, .tt-dataset-stocks{
+  width: 100%;
+}
+
+.tt-suggestion{
+  padding: 5px;
+  border-top: 1px solid lightgray;
+  border-right: 1px solid lightgray;
+  border-left: 1px solid lightgray;
+  font-weight: 300;
+}
+
+.tt-suggestion:last-child{
+  border-bottom: 1px solid lightgray;
 }
