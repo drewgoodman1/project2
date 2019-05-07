@@ -19,16 +19,15 @@ $('nav a').on('click', function () {
   getChart(this.id)
 })
 
-var input = $('autosymbol').val().trim()
+// var input = $('autosymbol').val().trim()
 
-function autoComplete (input){
+function autoComplete (input) {
   API.getSymbol(input).then(
-    function(data){
+    function (data) {
       $('#autosymbol').autocomplete(data)
     }
   )
 }
-
 
 // The API object contains methods for each kind of request we'll make
 var API = {
@@ -75,12 +74,6 @@ var API = {
   getChart: function (symbol) {
     return $.ajax({
       url: 'https://api.iextrading.com/1.0/stock/' + symbol + '/chart',
-      type: 'GET'
-    })
-  },
-  getSymbol: function (input) {
-    return $.ajax({
-      url: 'https://api.iextrading.com/1.0/stock/ref-data/symbols',
       type: 'GET'
     })
   },
@@ -144,9 +137,9 @@ function getLogo (symbol) {
   )
 }
 
-function autoComplete (input){
+function autocomplete (input) {
   API.getSymbol(input).then(
-    function(data){
+    function (data) {
       $('#autosymbol').autocomplete(data)
     }
   )

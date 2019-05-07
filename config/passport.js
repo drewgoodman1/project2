@@ -66,13 +66,13 @@ module.exports = function (passport, user) {
         } else {
           var userPassword = generateHash(password)
           var data =
-					{
-					  email: email,
-					  password: userPassword,
-					  firstname: req.body.firstname,
-					  lastname: req.body.lastname,
-					  username: req.body.username
-					}
+          {
+            email: email,
+            password: userPassword,
+            firstname: req.body.firstname,
+            lastname: req.body.lastname,
+            username: req.body.username
+          }
           User.create(data).then(function (newUser, created) {
             if (!newUser) {
               return done(null, false)
