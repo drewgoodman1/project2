@@ -1,15 +1,12 @@
 'use strict';
 
 var jsonSeedData = require("./symbols.json");
-//var marketData = JSON.parse(jsonSeedData);
-//console.log(marketData);
-
 
 module.exports = {
-  
   up: (queryInterface, Sequelize) => {
-    return queryInterface.bulkInsert('markets', jsonSeedData, {});
+    return queryInterface.bulkInsert('stocks', jsonSeedData, {});
   },
+
 
   down: (queryInterface, Sequelize) => {
     /*

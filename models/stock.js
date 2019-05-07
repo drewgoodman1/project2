@@ -1,6 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const market = sequelize.define('market', {
+  const stock = sequelize.define('stock', {
     symbol: DataTypes.STRING,
     name: DataTypes.STRING,
     date: DataTypes.STRING,
@@ -8,8 +8,8 @@ module.exports = (sequelize, DataTypes) => {
     type: DataTypes.STRING,
     iexId: DataTypes.INTEGER
   }, {});
-  market.associate = function(models) {
+  stock.associate = function(models) {
     // associations can be defined here
   };
-  return market;
+  return stock;
 };
