@@ -1,48 +1,103 @@
-// Get references to page elements
-// var $exampleText = $('#example-text')
-// var $exampleDescription = $('#example-description')
-// var $submitBtn = $('#submit')
-// var $exampleList = $('#example-list')
+var stocks = []
 
-var symbols = ['aapl', 'wmt', 'snap', 'fb', 'goog', 'tgt', 'SNE']
-
-for (var i = 0; i < symbols.length; i++) {
-  $('nav').append(
-    "<a href='#' id='" + symbols[i] + "'>" + symbols[i].toUpperCase() + '</a>'
-  )
-}
-
-$('nav a').on('click', function () {
-  getPrice(this.id)
-  getNews(this.id)
-  getLogo(this.id)
-  getChart(this.id)
+$.get('/api/stocks', function (data) {
+  for (var i = 0; i < data.length; i++) {
+    stocks.push(data[i].name + ' - ' + data[i].symbol)
+  }
 })
 
-// The API object contains methods for each kind of request we'll make
+var substringMatcher = function (strs) {
+  return function findMatches (q, cb) {
+    var matches, substringRegex
+
+    matches = []
+
+    substrRegex = new RegExp(q, 'i')
+
+    $.each(strs, function (i, str) {
+      if (substrRegex.test(str)) {
+        matches.push(str)
+      }
+    })
+
+    cb(matches)
+  }
+}
+
+$('#symbol').typeahead({
+  hint: true,
+  highlight: true,
+  minLength: 1
+},
+{
+  name: 'stocks',
+  source: substringMatcher(stocks)
+})
+
+var userId = $('#user').data('id')
+
+$('#buy').on('click', function () {
+  var symbol = $('#symbol').val().split(' - ')
+  var quantity = $('#quantity').val().trim()
+  var userId = $('#user').data('id')
+
+  var symbolId
+
+  $.get('/api/stockId/' + symbol[1], function (data) {
+    console.log(data)
+    symbolId = data[0].id
+  })
+
+  API.getPrice(symbol[1]).then(
+    function (data) {
+      var newStock = {
+        symbol: parseInt(symbolId),
+        quantity: parseInt(quantity),
+        userId: parseInt(userId),
+        purchasePrice: data
+      }
+
+      console.log(newStock)
+
+      $.ajax('/api/order', {
+        type: 'POST',
+        data: newStock
+      }).then(
+        function () {
+          location.reload()
+        }
+      )
+    }
+  )
+})
+
+
+$('#sell').on('click', function () {
+  var userId = $('#user').data('id')
+  var symbol = $('#current-price').attr('name');
+  var symbolId
+
+  console.log(symbol)
+
+  $.ajax('/api/stockId/' + symbol, {
+    type: 'GET'
+  }).then(
+    function (data) {
+      symbolId = data[0].id
+      console.log(symbolId)
+      $.ajax('/api/orders/' + userId + '/' + symbolId, {
+        type: 'DELETE'
+      }).then(
+        function () {
+          location.reload()
+        }
+      )
+    }
+  )
+
+})
+
 var API = {
-  // saveExample: function (example) {
-  //   return $.ajax({
-  //     headers: {
-  //       'Content-Type': 'application/json'
-  //     },
-  //     type: 'POST',
-  //     url: 'api/examples',
-  //     data: JSON.stringify(example)
-  //   })
-  // },
-  // getExamples: function () {
-  //   return $.ajax({
-  //     url: 'api/examples',
-  //     type: 'GET'
-  //   })
-  // },
-  // deleteExample: function (id) {
-  //   return $.ajax({
-  //     url: 'api/examples/' + id,
-  //     type: 'DELETE'
-  //   })
-  // },
   getPrice: function (symbol) {
     return $.ajax({
       url: 'https://api.iextrading.com/1.0/stock/' + symbol + '/price',
@@ -51,7 +106,7 @@ var API = {
   },
   getNews: function (symbol) {
     return $.ajax({
-      url: 'https://api.iextrading.com/1.0/stock/' + symbol + '/news/last/5',
+      url: 'https://api.iextrading.com/1.0/stock/' + symbol + '/news/last/4',
       type: 'GET'
     })
   },
@@ -66,6 +121,18 @@ var API = {
       url: 'https://api.iextrading.com/1.0/stock/' + symbol + '/chart',
       type: 'GET'
     })
+  },
+  getUsersStockId: function (userId) {
+    return $.ajax({
+      url: '/api/usersStockId/' + userId,
+      type: 'GET'
+    })
+  },
+  getUsersStockSymbols: function (usersStocksIds) {
+    return $.ajax({
+      url: '/api/usersStockSymbols/' + usersStocksIds,
+      type: 'GET'
+    })
   }
 }
 
@@ -73,10 +140,47 @@ function truncate (str, no_words) {
   return str.split(' ').splice(0, no_words).join(' ')
 }
 
+getUsersStocks()
+function getUsersStocks () {
+  var usersStocksIds = []
+
+  API.getUsersStockId(userId).then(
+    function (data) {
+      for (var i = 0; i < data.length; i++) {
+        usersStocksIds.push(data[i].stockID)
+      }
+      console.log(usersStocksIds)
+
+      API.getUsersStockSymbols(usersStocksIds).then(
+        function (data) {
+          console.log(data)
+          for (var i = 0; i < data.length; i++) {
+            $('nav').append(
+              "<a href='#' id='" + data[i].symbol + "'>" + data[i].symbol.toUpperCase() + '</a>'
+            )
+          }
+
+          getPrice(data[0].symbol)
+          getNews(data[0].symbol)
+          getLogo(data[0].symbol)
+          getChart(data[0].symbol)
+
+          $('nav a').on('click', function () {
+            getPrice(this.id)
+            getNews(this.id)
+            getLogo(this.id)
+            getChart(this.id)
+          })
+        }
+      )
+    }
+  )
+}
+
 function getPrice (symbol) {
   API.getPrice(symbol).then(
     function (data) {
-      $('#current-price').text('$' + data)
+      $('#current-price').text('$' + data).attr('name', symbol);
     }
   )
 }
@@ -84,7 +188,6 @@ function getPrice (symbol) {
 function getChart (symbol) {
   API.getChart(symbol).then(
     function (data) {
-      console.log(data)
       var dataArray = []
 
       for (var i = 0; i < data.length; i++) {
@@ -92,7 +195,6 @@ function getChart (symbol) {
       }
 
       makeChart(dataArray, symbol)
-      console.log(dataArray)
     }
   )
 }
@@ -121,94 +223,12 @@ function getLogo (symbol) {
   )
 }
 
-// refreshExamples gets new examples from the db and repopulates the list
-// var refreshExamples = function () {
-//   API.getExamples().then(function (data) {
-//     var $examples = data.map(function (example) {
-//       var $a = $('<a>')
-//         .text(example.text)
-//         .attr('href', '/example/' + example.id)
-
-//       var $li = $('<li>')
-//         .attr({
-//           class: 'list-group-item',
-//           'data-id': example.id
-//         })
-//         .append($a)
-
-//       var $button = $('<button>')
-//         .addClass('btn btn-danger float-right delete')
-//         .text('ｘ')
-
-//       $li.append($button)
-
-//       return $li
-//     })
-
-//     $exampleList.empty()
-//     $exampleList.append($examples)
-//   })
-// }
-
-// handleFormSubmit is called whenever we submit a new example
-// Save the new example to the db and refresh the list
-// var handleFormSubmit = function (event) {
-//   event.preventDefault()
-
-//   var example = {
-//     text: $exampleText.val().trim(),
-//     description: $exampleDescription.val().trim()
-//   }
-
-//   if (!(example.text && example.description)) {
-//     alert('You must enter an example text and description!')
-//     return
-//   }
-
-//   API.saveExample(example).then(function () {
-//     refreshExamples()
-//   })
-
-//   $exampleText.val('')
-//   $exampleDescription.val('')
-// }
-
-// handleDeleteBtnClick is called when an example's delete button is clicked
-// Remove the example from the db and refresh the list
-// var handleDeleteBtnClick = function () {
-//   var idToDelete = $(this)
-//     .parent()
-//     .attr('data-id')
-
-//   API.deleteExample(idToDelete).then(function () {
-//     refreshExamples()
-//   })
-// }
-
-// Add event listeners to the submit and delete buttons
-// $submitBtn.on('click', handleFormSubmit)
-// $exampleList.on('click', '.delete', handleDeleteBtnClick)
-
-getPrice(symbols[0])
-getNews(symbols[0])
-getLogo(symbols[0])
-getChart(symbols[0])
-
-// var data = getChart(symbols[0])
-// console.log(data)
-
-// var dataArray = []
-
-// for(var i = 0; i < data.length; i++){
-//    dataArray.push({ x: new Date(2016, 07, 01), y: 76.727997 })
-// }
-
 function makeChart (dataArray, symbol) {
   var chart = new CanvasJS.Chart('chartContainer', {
     animationEnabled: true,
     title: {
       text: symbol.toUpperCase() + ' - 1 Month',
-      fontFamily: "Source Sans Pro",
+      fontFamily: 'Source Sans Pro',
       fontSize: 16
     },
     axisX: {
