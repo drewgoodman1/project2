@@ -1,4 +1,3 @@
-
 var stocks = []
 
 $.get('/api/stocks', function (data) {
@@ -96,13 +95,6 @@ $('#sell').on('click', function () {
     }
   )
 
-  // $.ajax('/api/orders/' + userId + '/' + symbolId, {
-  //   type: 'DELETE'
-  // }).then(
-  //   function () {
-  //     location.reload()
-  //   }
-  // )
 })
 
 var API = {
@@ -151,7 +143,6 @@ function truncate (str, no_words) {
 getUsersStocks()
 function getUsersStocks () {
   var usersStocksIds = []
-  var sym = []
 
   API.getUsersStockId(userId).then(
     function (data) {
