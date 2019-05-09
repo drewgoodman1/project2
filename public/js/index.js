@@ -63,14 +63,22 @@ $('#buy').on('click', function () {
         type: 'POST',
         data: newStock
       }).then(
-        function () {
-          location.reload()
+        function (data) {
+          $('#addStockModal').modal('hide');
+          $('#symbol').val('');
+          $('#quantity').val('');
+          getUsersStocks()
+          getPrice(symbol[1])
+          getNews(symbol[1])
+          getLogo(symbol[1])
+          getChart(symbol[1])
+          getStockInfo(symbol[1])
+          // location.reload()
         }
       )
     }
   )
 })
-
 
 $('#sell').on('click', function () {
   var userId = $('#user').data('id')
@@ -146,6 +154,7 @@ function getUsersStocks () {
 
   API.getUsersStockId(userId).then(
     function (data) {
+      console.log(data)
       for (var i = 0; i < data.length; i++) {
         usersStocksIds.push(data[i].stockID)
       }
@@ -154,18 +163,22 @@ function getUsersStocks () {
       API.getUsersStockSymbols(usersStocksIds).then(
         function (data) {
           console.log(data)
+          $('nav').empty()
+
           for (var i = 0; i < data.length; i++) {
             $('nav').append(
               "<a href='#' id='" + data[i].symbol + "'>" + data[i].symbol.toUpperCase() + '</a>'
             )
           }
 
-          getPrice(data[0].symbol)
-          getNews(data[0].symbol)
-          getLogo(data[0].symbol)
-          getChart(data[0].symbol)
+          // getPrice(data[0].symbol)
+          // getNews(data[0].symbol)
+          // getLogo(data[0].symbol)
+          // getChart(data[0].symbol)
 
           $('nav a').on('click', function () {
+            console.log(this.id)
+            getStockInfo(this.id)
             getPrice(this.id)
             getNews(this.id)
             getLogo(this.id)
@@ -177,13 +190,44 @@ function getUsersStocks () {
   )
 }
 
+function getStockInfo (symbol) {
+  $.get('/api/stockId/' + symbol, function (data) {
+    // return symbolId
+    symbolId = data[0].id
+  }).then(
+    function (data) {
+      symbolId = data[0].id
+      console.log(data)
+
+      $.ajax('/api/orders/' + userId + '/' + symbolId, {
+        type: 'GET'
+      }).then(
+        function (data) {
+          API.getPrice(symbol).then(
+            function (result) {
+              var total = data[0].quantity * data[0].purchasePrice.toFixed(2)
+              var newPrice = parseInt(data[0].quantity) * parseFloat(result.toFixed(2))
+              $('#purchasePrice').text('$' + data[0].purchasePrice.toFixed(2))
+              $('#purchaseQuantity').text(data[0].quantity)
+              $('#investment').text('$' + total.toFixed(2))
+              $('#worth').text('$' + newPrice.toFixed(2))
+            }
+          )
+        }
+      )
+    }
+  )
+
+}
+
 function getPrice (symbol) {
   API.getPrice(symbol).then(
     function (data) {
-      $('#current-price').text('$' + data).attr('name', symbol);
+      $('#current-price').text('$' + data.toFixed(2)).attr('name', symbol);
     }
   )
 }
+
 
 function getChart (symbol) {
   API.getChart(symbol).then(
