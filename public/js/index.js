@@ -37,7 +37,6 @@ $('#symbol').typeahead({
 var userId = $('#user').data('id')
 var userMoney = $('#money').data('id')
 
-
 $('#buy').on('click', function () {
   var symbol = $('#symbol').val().split(' - ')
   var quantity = $('#quantity').val().trim()
@@ -200,10 +199,11 @@ function getUsersStocks () {
             )
           }
 
-          // getPrice(data[0].symbol)
-          // getNews(data[0].symbol)
-          // getLogo(data[0].symbol)
-          // getChart(data[0].symbol)
+          getPrice(data[0].symbol)
+          getNews(data[0].symbol)
+          getLogo(data[0].symbol)
+          getChart(data[0].symbol)
+          getStockInfo(data[0].symbol)
 
           $('nav a').on('click', function () {
             console.log(this.id)
@@ -227,7 +227,6 @@ function getStockInfo (symbol) {
   }).then(
     function (data) {
       symbolId = data[0].id
-      console.log(data)
 
       $.ajax('/api/orders/' + userId + '/' + symbolId, {
         type: 'GET'
@@ -240,7 +239,14 @@ function getStockInfo (symbol) {
               $('#purchasePrice').text('$' + data[0].purchasePrice.toFixed(2))
               $('#purchaseQuantity').text(data[0].quantity)
               $('#investment').text('$' + total.toFixed(2))
-              $('#worth').text('$' + newPrice.toFixed(2))
+              var oldTotal = parseFloat(total).toFixed(2)
+              var newTotal = parseFloat(newPrice).toFixed(2)
+   
+              if (parseFloat(oldTotal) > parseFloat(newTotal)) {
+                $('#worth').text('$' + newPrice.toFixed(2)).addClass('red').removeClass("green");
+              } else {
+                $('#worth').text('$' + newPrice.toFixed(2)).addClass('green').removeClass("red");
+              }
             }
           )
         }
@@ -332,3 +338,8 @@ function makeChart (dataArray, symbol) {
   })
   chart.render()
 }
+
+// getPrice(data[0].symbol)
+// getNews(data[0].symbol)
+// getLogo(data[0].symbol)
+// getChart(data[0].symbol)
