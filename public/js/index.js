@@ -56,29 +56,24 @@ $('#buy').on('click', function () {
         userId: parseInt(userId),
         purchasePrice: parseFloat(data)
       }
-
       console.log(newStock)
 
       $.ajax('/api/order', {
         type: 'POST',
         data: newStock
       }).then(
-        function () {
-
+        function (newStock) {
+          var total = newStock.purchasePrice * newStock.quantity
+          console.log(total)
         }
       )
-      var total = newStock.purchasePrice * newStock.quantity
-      console.log(total)
-
     }
   )
-
 })
-
 
 $('#sell').on('click', function () {
   var userId = $('#user').data('id')
-  var symbol = $('#current-price').attr('name');
+  var symbol = $('#current-price').attr('name')
   var symbolId
 
   console.log(symbol)
@@ -98,7 +93,6 @@ $('#sell').on('click', function () {
       )
     }
   )
-
 })
 
 var API = {

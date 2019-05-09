@@ -41,9 +41,19 @@ module.exports = function (app) {
       quantity: req.body.quantity,
       stockID: req.body.symbol
     }).then(function (data) {
+      // Update user money here
       res.json(data)
-      console.log ("no")
-      console.log(data)
+    })
+  })
+
+  app.put('/api/order', function (req, res) {
+    db.User.money.update({
+      money: req.body.total
+    }, /* set attributes' value */
+    {
+      where: { id: req.body.userId }
+    }).then(function (data) {
+      res.json(data)
     })
   })
 
@@ -57,6 +67,5 @@ module.exports = function (app) {
     }).then(function (data) {
       res.json(data)
     })
-
   })
 }

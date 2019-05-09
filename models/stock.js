@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 module.exports = function (sequelize, Sequelize) {
   var Stock = sequelize.define('stock', {
     id: {
@@ -30,4 +30,3 @@ module.exports = function (sequelize, Sequelize) {
 
   return Stock
 }
-

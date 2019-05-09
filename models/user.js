@@ -27,9 +27,9 @@ module.exports = function (sequelize, Sequelize) {
       allowNull: false
     },
     money: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.FLOAT(2),
       allowNull: false,
-      defaultValue: 10000000
+      defaultValue: 10000.00
     },
     last_login: {
       type: Sequelize.DATE
