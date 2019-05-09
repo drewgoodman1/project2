@@ -241,11 +241,11 @@ function getStockInfo (symbol) {
               $('#investment').text('$' + total.toFixed(2))
               var oldTotal = parseFloat(total).toFixed(2)
               var newTotal = parseFloat(newPrice).toFixed(2)
-   
+
               if (parseFloat(oldTotal) > parseFloat(newTotal)) {
-                $('#worth').text('$' + newPrice.toFixed(2)).addClass('red').removeClass("green");
+                $('#worth').text('$' + newPrice.toFixed(2)).addClass('red').removeClass('green')
               } else {
-                $('#worth').text('$' + newPrice.toFixed(2)).addClass('green').removeClass("red");
+                $('#worth').text('$' + newPrice.toFixed(2)).addClass('green').removeClass('red')
               }
             }
           )
