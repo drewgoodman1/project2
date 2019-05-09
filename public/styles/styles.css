@@ -273,3 +273,7 @@ label{
 .tt-suggestion:last-child{
   border-bottom: 1px solid lightgray;
 }
+
+.nav-bg{
+  background-color: #083742;
+}

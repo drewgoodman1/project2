@@ -15,6 +15,26 @@ module.exports = function (app) {
     })
   })
 
+  app.put('/api/addMoney/:userId/:amount', function (req, res) {
+    db.user.update({
+      money: req.params.amount
+    },{
+      where: { id: req.params.userId }
+    }).then(function (data) {
+      res.json(data)
+    })
+  })
+
+  app.put('/api/subtractMoney/:userId/:amount', function (req, res) {
+    db.user.update({
+      money: req.params.amount
+    },{
+      where: { id: req.params.userId }
+    }).then(function (data) {
+      res.json(data)
+    })
+  })
+
   app.get('/api/usersStockId/:userId', function (req, res) {
     db.stockOrder.findAll({
       where: { userId: req.params.userId }

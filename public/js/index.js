@@ -35,6 +35,8 @@ $('#symbol').typeahead({
 })
 
 var userId = $('#user').data('id')
+var userMoney = $('#money').data('id')
+
 
 $('#buy').on('click', function () {
   var symbol = $('#symbol').val().split(' - ')
@@ -59,21 +61,33 @@ $('#buy').on('click', function () {
 
       console.log(newStock)
 
+      var newMoney = userMoney - (data * parseInt(quantity))
+
+      $.ajax('/api/addMoney/' + userId + '/' + newMoney, {
+        type: 'PUT'
+      }).then(
+        function (data) {
+          console.log(data)
+          // location.reload()
+        }
+      )
+
       $.ajax('/api/order', {
         type: 'POST',
         data: newStock
       }).then(
         function (data) {
-          $('#addStockModal').modal('hide');
-          $('#symbol').val('');
-          $('#quantity').val('');
+          // location.reload()
+          $('#addStockModal').modal('hide')
+          $('#symbol').val('')
+          $('#quantity').val('')
           getUsersStocks()
           getPrice(symbol[1])
           getNews(symbol[1])
           getLogo(symbol[1])
           getChart(symbol[1])
           getStockInfo(symbol[1])
-          // location.reload()
+          location.reload()
         }
       )
     }
@@ -82,10 +96,26 @@ $('#buy').on('click', function () {
 
 $('#sell').on('click', function () {
   var userId = $('#user').data('id')
-  var symbol = $('#current-price').attr('name');
+  var symbol = $('#current-price').attr('name')
   var symbolId
 
+  var currentPrice = $('#current-price').html().split('$')
+  var quantity = $('#purchaseQuantity').html()
+
+  console.log(currentPrice[1])
+
+  var newMoney = userMoney + (parseFloat(currentPrice[1]) * parseInt(quantity))
+
   console.log(symbol)
+
+  $.ajax('/api/subtractMoney/' + userId + '/' + newMoney, {
+    type: 'PUT'
+  }).then(
+    function (data) {
+      console.log(data)
+      // location.reload()
+    }
+  )
 
   $.ajax('/api/stockId/' + symbol, {
     type: 'GET'
@@ -102,7 +132,6 @@ $('#sell').on('click', function () {
       )
     }
   )
-
 })
 
 var API = {
@@ -178,6 +207,7 @@ function getUsersStocks () {
 
           $('nav a').on('click', function () {
             console.log(this.id)
+            $(this).toggleClass('nav-bg').siblings().removeClass('nav-bg')
             getStockInfo(this.id)
             getPrice(this.id)
             getNews(this.id)
@@ -217,17 +247,15 @@ function getStockInfo (symbol) {
       )
     }
   )
-
 }
 
 function getPrice (symbol) {
   API.getPrice(symbol).then(
     function (data) {
-      $('#current-price').text('$' + data.toFixed(2)).attr('name', symbol);
+      $('#current-price').text('$' + data.toFixed(2)).attr('name', symbol)
     }
   )
 }
-
 
 function getChart (symbol) {
   API.getChart(symbol).then(
