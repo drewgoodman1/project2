@@ -2,7 +2,7 @@ var db = require('../models')
 
 module.exports = function (app) {
   app.get('/api/stocks', function (req, res) {
-    db.stock.findAll({ attributes: ['symbol', 'name'] }).then(function (data) {
+    db.stock.findAll({ attributes: ['symbol', 'name', 'id'] }).then(function (data) {
       res.json(data)
     })
   })
@@ -40,6 +40,17 @@ module.exports = function (app) {
       purchasePrice: req.body.purchasePrice,
       quantity: req.body.quantity,
       stockID: req.body.symbol
+    }).then(function (data) {
+      res.json(data)
+    })
+  })
+
+  app.get('/api/orders/:userId/:stockId', function (req, res) {
+    db.stockOrder.findAll({
+      where: {
+        userId: req.params.userId,
+        stockID: req.params.stockId
+      }
     }).then(function (data) {
       res.json(data)
     })

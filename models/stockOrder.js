@@ -10,7 +10,7 @@ module.exports = function (sequelize, Sequelize) {
       type: Sequelize.INTEGER
     },
     purchasePrice: {
-      type: Sequelize.INTEGER
+      type: Sequelize.FLOAT
     }
   })
 
