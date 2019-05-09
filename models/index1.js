@@ -1,4 +1,5 @@
-'use strict';
+'use strict'
+// console.log('INDEX ONE IS HERE')
 
 var fs = require('fs')
 var path = require('path')

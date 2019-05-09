@@ -54,7 +54,7 @@ $('#buy').on('click', function () {
         symbol: parseInt(symbolId),
         quantity: parseInt(quantity),
         userId: parseInt(userId),
-        purchasePrice: data
+        purchasePrice: parseFloat(data)
       }
 
       console.log(newStock)
@@ -64,11 +64,15 @@ $('#buy').on('click', function () {
         data: newStock
       }).then(
         function () {
-          location.reload()
+
         }
       )
+      var total = newStock.purchasePrice * newStock.quantity
+      console.log(total)
+
     }
   )
+
 })
 
 

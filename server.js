@@ -13,8 +13,6 @@ var bodyParser = require('body-parser')
 // const quote = {}
 // quote.default = AAPL.quote()
 // quote.percent = AAPL.quote({displayPercent: true}).then(console.log(quote))
-
-
 var Handlebars = require('handlebars')
 var HandlebarsIntl = require('handlebars-intl')
 
@@ -38,7 +36,7 @@ app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 app.use(express.static('public'))
 
-var env = require('dotenv').load()
+require('dotenv').load()
 
 // Handlebars
 app.engine(
@@ -49,7 +47,7 @@ app.engine(
 )
 app.set('view engine', 'handlebars')
 
-var authRoute = require('./routes/authRoutes')(app, passport)
+require('./routes/authRoutes')(app, passport)
 
 HandlebarsIntl.registerWith(Handlebars)
 

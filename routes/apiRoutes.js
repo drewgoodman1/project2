@@ -42,6 +42,8 @@ module.exports = function (app) {
       stockID: req.body.symbol
     }).then(function (data) {
       res.json(data)
+      console.log ("no")
+      console.log(data)
     })
   })
 
