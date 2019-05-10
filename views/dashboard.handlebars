@@ -6,7 +6,7 @@
       </a>
     </div>
     <div class="col-md-10 nav-right">
-      <h4><i class="fas fa-coins coins"></i> {{formatNumber money style="currency" currency="USD"}}</h4>
+      <h4 id='money' data-id="{{money}}"><i class="fas fa-coins coins"></i> {{formatNumber money style="currency" currency="USD"}}</h4>
       <ul>
         <li id="user" data-id="{{id}}"><i class="fas fa-user-astronaut user-icon"></i> {{firstname}} {{lastname}}</li>
         <li><a id="addStock" href="" data-toggle="modal" data-target="#addStockModal"><i class="far fa-plus-square"></i></a></li>
@@ -36,17 +36,17 @@
         <div class="col-12 col-md-4">
           <div class="box">
             <h3>Purchased Price</h3>
-            <h5 id="purchasePrice">db</h5>
+            <h5 id="purchasePrice"></h5>
             <h3>Purchased Quantity</h3>
-            <h5 id="purchaseQuantity">db</h5>
+            <h5 id="purchaseQuantity"></h5>
           </div>
         </div>
         <div class="col-12 col-md-4">
           <div class="box">
             <h3>Total Investment</h3>
-            <h5 id="investment">db</h5>
+            <h5 id="investment"></h5>
             <h3>Total Worth</h3>
-            <h5 id="worth">db</h5>
+            <h5 id="worth"></h5>
           </div>
         </div>
       </div>

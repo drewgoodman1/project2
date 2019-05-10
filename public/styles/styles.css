@@ -36,7 +36,7 @@ form i{
 }
 
 .navbar-brand:hover{
-  /* color: lightgrey !important;  */
+  color: #0F6378 !important; 
 }
 
 .sidebar h1 a:hover{
@@ -272,4 +272,16 @@ label{
 
 .tt-suggestion:last-child{
   border-bottom: 1px solid lightgray;
+}
+
+.nav-bg{
+  background-color: #083742;
+}
+
+.red{
+  color:red;
+}
+
+.green{
+  color: green;
 }

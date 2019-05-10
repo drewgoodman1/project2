@@ -35,6 +35,7 @@ $('#symbol').typeahead({
 })
 
 var userId = $('#user').data('id')
+var userMoney = $('#money').data('id')
 
 $('#buy').on('click', function () {
   var symbol = $('#symbol').val().split(' - ')
@@ -59,21 +60,33 @@ $('#buy').on('click', function () {
 
       console.log(newStock)
 
+      var newMoney = userMoney - (data * parseInt(quantity))
+
+      $.ajax('/api/addMoney/' + userId + '/' + newMoney, {
+        type: 'PUT'
+      }).then(
+        function (data) {
+          console.log(data)
+          // location.reload()
+        }
+      )
+
       $.ajax('/api/order', {
         type: 'POST',
         data: newStock
       }).then(
         function (data) {
-          $('#addStockModal').modal('hide');
-          $('#symbol').val('');
-          $('#quantity').val('');
+          // location.reload()
+          $('#addStockModal').modal('hide')
+          $('#symbol').val('')
+          $('#quantity').val('')
           getUsersStocks()
           getPrice(symbol[1])
           getNews(symbol[1])
           getLogo(symbol[1])
           getChart(symbol[1])
           getStockInfo(symbol[1])
-          // location.reload()
+          location.reload()
         }
       )
     }
@@ -82,10 +95,26 @@ $('#buy').on('click', function () {
 
 $('#sell').on('click', function () {
   var userId = $('#user').data('id')
-  var symbol = $('#current-price').attr('name');
+  var symbol = $('#current-price').attr('name')
   var symbolId
 
+  var currentPrice = $('#current-price').html().split('$')
+  var quantity = $('#purchaseQuantity').html()
+
+  console.log(currentPrice[1])
+
+  var newMoney = userMoney + (parseFloat(currentPrice[1]) * parseInt(quantity))
+
   console.log(symbol)
+
+  $.ajax('/api/subtractMoney/' + userId + '/' + newMoney, {
+    type: 'PUT'
+  }).then(
+    function (data) {
+      console.log(data)
+      // location.reload()
+    }
+  )
 
   $.ajax('/api/stockId/' + symbol, {
     type: 'GET'
@@ -102,7 +131,6 @@ $('#sell').on('click', function () {
       )
     }
   )
-
 })
 
 var API = {
@@ -171,13 +199,15 @@ function getUsersStocks () {
             )
           }
 
-          // getPrice(data[0].symbol)
-          // getNews(data[0].symbol)
-          // getLogo(data[0].symbol)
-          // getChart(data[0].symbol)
+          getPrice(data[0].symbol)
+          getNews(data[0].symbol)
+          getLogo(data[0].symbol)
+          getChart(data[0].symbol)
+          getStockInfo(data[0].symbol)
 
           $('nav a').on('click', function () {
             console.log(this.id)
+            $(this).toggleClass('nav-bg').siblings().removeClass('nav-bg')
             getStockInfo(this.id)
             getPrice(this.id)
             getNews(this.id)
@@ -197,7 +227,6 @@ function getStockInfo (symbol) {
   }).then(
     function (data) {
       symbolId = data[0].id
-      console.log(data)
 
       $.ajax('/api/orders/' + userId + '/' + symbolId, {
         type: 'GET'
@@ -210,24 +239,29 @@ function getStockInfo (symbol) {
               $('#purchasePrice').text('$' + data[0].purchasePrice.toFixed(2))
               $('#purchaseQuantity').text(data[0].quantity)
               $('#investment').text('$' + total.toFixed(2))
-              $('#worth').text('$' + newPrice.toFixed(2))
+              var oldTotal = parseFloat(total).toFixed(2)
+              var newTotal = parseFloat(newPrice).toFixed(2)
+
+              if (parseFloat(oldTotal) > parseFloat(newTotal)) {
+                $('#worth').text('$' + newPrice.toFixed(2)).addClass('red').removeClass('green')
+              } else {
+                $('#worth').text('$' + newPrice.toFixed(2)).addClass('green').removeClass('red')
+              }
             }
           )
         }
       )
     }
   )
-
 }
 
 function getPrice (symbol) {
   API.getPrice(symbol).then(
     function (data) {
-      $('#current-price').text('$' + data.toFixed(2)).attr('name', symbol);
+      $('#current-price').text('$' + data.toFixed(2)).attr('name', symbol)
     }
   )
 }
-
 
 function getChart (symbol) {
   API.getChart(symbol).then(
@@ -304,3 +338,8 @@ function makeChart (dataArray, symbol) {
   })
   chart.render()
 }
+
+// getPrice(data[0].symbol)
+// getNews(data[0].symbol)
+// getLogo(data[0].symbol)
+// getChart(data[0].symbol)
