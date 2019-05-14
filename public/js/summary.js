@@ -38,6 +38,7 @@ var userId = $('#user').data('id')
 var userMoney = $('#money').data('id')
 
 $('#buy').on('click', function () {
+  console.log(" ++++++++++++++++++++++++++++++++++++++++++++");
   var symbol = $('#symbol').val().split(' - ')
   var quantity = $('#quantity').val().trim()
   var userId = $('#user').data('id')
@@ -96,52 +97,27 @@ $('#buy').on('click', function () {
 $('#sell').on('click', function () {
   var userId = $('#user').data('id')
   var symbol = $('#current-price').attr('name')
-  var sharesHeld = ($('#purchaseQuantity').html())
-  var quantity = $('#sellQuantity').val().trim()  
-  var currentPrice = ($('#current-price' ).html().split('$'))
-  var currentBalance = ($('#money').data('id'))
-  var updatedBalance = parseFloat(currentBalance) + (parseFloat(currentPrice) * parseInt(quantity))
-  var symbolId  
-  var updatedQuantity
-  
-  console.log(currentBalance + " <= current balance updated balance =>" + updatedBalance + " --- have ---- " + sharesHeld + " ---------- sell  " + quantity + " --------- ")
+  var symbolId
+
+  var currentPrice = $('#current-price').html().split('$')
+  var quantity = $('#purchaseQuantity').html()
 
   console.log(currentPrice[1])
-  //var newMoney = userMoney + (parseFloat(currentPrice[1]) * parseInt(quantity))
-  //console.log(newMoney + ' new money total $$$$$')
 
-  //gset symbolId to stockId
+  var newMoney = userMoney + (parseFloat(currentPrice[1]) * parseInt(quantity))
+
   console.log(symbol)
-  $.ajax('api/stockId/' + symbol + '/', {
-    type: 'GET'
-  }).then(function(data) {    
-    symbolId = data[0].id
-    console.log(JSON.stringify(symbolId) + " symbolId from API " + userId)
-    $.ajax('/api/orders/' + userId + '/' + symbolId + '/', {
-      type: 'GET'
-    }).then(function(data){      
-      updatedQuantity = sharesHeld - quantity
-      console.log(updatedQuantity + " new shares held")      
-      console.log(JSON.stringify(data))
-      $.ajax('api/orders/' + userId + '/' + symbolId + '/' + updatedQuantity, {
-        type: 'PUT'
-      }).then(function(data){
-        console.log(data)        
-        
-      })
-    })  
-  }) 
 
-  /*$.ajax('/api/addMoney/' + userId + '/' + newMoney, {
+  $.ajax('/api/subtractMoney/' + userId + '/' + newMoney, {
     type: 'PUT'
   }).then(
     function (data) {
       console.log(data)
       // location.reload()
     }
-  )*/
+  )
 
-  /*$.ajax('/api/stockId/' + symbol, {
+  $.ajax('/api/stockId/' + symbol, {
     type: 'GET'
   }).then(
     function (data) {
@@ -155,7 +131,7 @@ $('#sell').on('click', function () {
         }
       )
     }
-  )*/
+  )
 })
 
 var API = {
@@ -291,7 +267,8 @@ function getPrice (symbol) {
 function getChart (symbol) {
   API.getChart(symbol).then(
     function (data) {
-      var dataArray = []
+      console.log(JSON.stringify(data) + " ************************* ");
+      var dataArray = []    
 
       for (var i = 0; i < data.length; i++) {
         dataArray.push({ x: new Date(data[i].date), y: data[i].open })
@@ -327,7 +304,7 @@ function getLogo (symbol) {
 }
 
 function makeChart (dataArray, symbol) {
-  var chart = new CanvasJS.Chart('chartContainer', {
+  var chart2 = new CanvasJS.Chart('chartContainer2', {
     animationEnabled: true,
     title: {
       text: symbol.toUpperCase() + ' - 1 Month',
@@ -361,10 +338,12 @@ function makeChart (dataArray, symbol) {
       dataPoints: dataArray
     }]
   })
-  chart.render()
+  console.log(" ++++++++++++++++++++++++++++++++++++++++++++");
+  chart2.render()
 }
 
 // getPrice(data[0].symbol)
 // getNews(data[0].symbol)
 // getLogo(data[0].symbol)
 // getChart(data[0].symbol)
+

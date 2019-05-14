@@ -31,7 +31,7 @@ app.use(session({ secret: 'keyboard cat', resave: true, saveUninitialized: true 
 app.use(passport.initialize())
 app.use(passport.session())
 
-var PORT = process.env.PORT || 3000
+var PORT = process.env.PORT || 3006
 
 // Middleware
 app.use(express.urlencoded({ extended: false }))

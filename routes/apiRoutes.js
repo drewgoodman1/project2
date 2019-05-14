@@ -76,12 +76,14 @@ module.exports = function (app) {
     })
   })
 
-  app.delete('/api/orders/:userId/:stockId', function (req, res) {
+  app.put('/api/orders/:userId/:stockId/:quantity', function (req, res) {
     console.log(req.params.stockId)
-    db.stockOrder.destroy({
+    db.stockOrder.update({
+      quantity: req.params.quantity
+    },{
       where: {
         userId: req.params.userId,
-        stockID: req.params.stockId
+        stockID: req.params.stockId        
       }
     }).then(function (data) {
       res.json(data)

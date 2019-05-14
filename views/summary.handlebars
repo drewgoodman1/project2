@@ -6,9 +6,10 @@
       </a>
     </div>
     <div class="col-md-10 nav-right">
-      <h4 id='money' data-id="{{money}}"><i class="fas fa-coins coins"></i> {{formatNumber money style="currency" currency="USD"}}</h4>
+      <h4><i class="fas fa-coins coins"></i> {{formatNumber money style="currency" currency="USD"}}</h4>
       <ul>
         <li id="user" data-id="{{id}}"><i class="fas fa-user-astronaut user-icon"></i> {{firstname}} {{lastname}}</li>
+        <li><a id="goToSummary" href="/summary" data-toggle="" data-target=""><i class="far fa-lightbulb"></i></a></li>
         <li><a id="addStock" href="" data-toggle="modal" data-target="#addStockModal"><i class="far fa-plus-square"></i></a></li>
         <li><a href="/logout"><i class="fas fa-sign-out-alt"></i></a></li>
       </ul>
@@ -28,39 +29,37 @@
       <div class="row row-spacing">
         <div class="col-12 col-md-4">
           <div class="box">
-            <span id="logo"></span>
-            {{!-- <h3>Current Price</h3> --}}
-            <h5 id="current-price"></h5>
+            <div id="charContainer2" style="height: 300px; width: 100%;"></div>
           </div>
         </div>
         <div class="col-12 col-md-4">
           <div class="box">
             <h3>Purchased Price</h3>
-            <h5 id="purchasePrice"></h5>
+            <h5 id="purchasePrice">db</h5>
             <h3>Purchased Quantity</h3>
-            <h5 id="purchaseQuantity"></h5>
+            <h5 id="purchaseQuantity">db</h5>
           </div>
         </div>
         <div class="col-12 col-md-4">
           <div class="box">
             <h3>Total Investment</h3>
-            <h5 id="investment"></h5>
+            <h5 id="investment">db</h5>
             <h3>Total Worth</h3>
-            <h5 id="worth"></h5>
+            <h5 id="worth">db</h5>
           </div>
         </div>
       </div>
       <div class="row row-spacing">
         <div class="col-12 col-md-6">
-          <div class="box"><div id="chartContainer" style="height: 300px; width: 100%;"></div>
+          <div class="box">
+
           </div>
         </div>
         <div class="col-12 col-md-6">
           <div class="box" id="news"></div>
         </div>
       </div>
-      <button type="button" id="sellStock" class="btn btn-outline-danger" data-toggle="modal" data-target="#sellStockModal">Sell Stock</button>
-      {{!-- <a class="btn btn-outline-light" id="addStock" href="" data-toggle="modal" data-target="#addStockModal">Sell Stock</a> --}}
+      <button type="button" id="sell" class="btn btn-outline-danger">Sell Stock</button>
     </div>
   </div>
 </div>
@@ -93,32 +92,4 @@
     </div>
   </div>
 </div>
-
-<div class="modal fade" id="sellStockModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Sell a Stock</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form>
-          {{!-- <div class="form-group"> --}}
-            {{!-- <label for="sellSymbol" class="col-form-label">Symbol</label> --}}
-            {{!-- <input type="text" class="form-control typeahead" id="sellSymbol"> --}}
-          {{!-- </div> --}}
-          <div class="form-group">
-            <label for="sellQuantity" class="col-form-label">Quantity</label>
-            <input type="text" class="form-control" id="sellQuantity">
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button id="sell" type="button" class="btn btn-primary">Sell</button>
-      </div>
-    </div>
-  </div>
-</div>
+<script src="/js/summary.js"></script>
